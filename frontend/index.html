@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecureLens</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- DASHBOARD SCREEN -->
+  <section id="screen-dashboard" class="screen active">
+    <header class="topbar">
+      <div class="eyebrow">SECURELENS · SAST</div>
+      <div class="title-row">
+        <h1>Dashboard</h1>
+        <span class="status"><span class="dot"></span> ACTIVE</span>
+      </div>
+    </header>
+
+    <div class="card total-card">
+      <div class="label">TOTAL VULNERABILITIES DETECTED</div>
+      <div class="big-number" id="stat-total">0</div>
+      <div class="sub" id="stat-scans-sub">across 0 scans</div>
+    </div>
+
+    <div class="section-label">SEVERITY BREAKDOWN</div>
+    <div class="severity-grid">
+      <div class="sev-card sev-critical">
+        <div class="dot dot-critical"></div>
+        <div class="sev-number" id="stat-critical">0</div>
+        <div class="sev-label">CRITICAL</div>
+      </div>
+      <div class="sev-card sev-high">
+        <div class="dot dot-high"></div>
+        <div class="sev-number" id="stat-high">0</div>
+        <div class="sev-label">HIGH</div>
+      </div>
+      <div class="sev-card sev-medium">
+        <div class="dot dot-medium"></div>
+        <div class="sev-number" id="stat-medium">0</div>
+        <div class="sev-label">MEDIUM</div>
+      </div>
+      <div class="sev-card sev-low">
+        <div class="dot dot-low"></div>
+        <div class="sev-number" id="stat-low">0</div>
+        <div class="sev-label">LOW</div>
+      </div>
+    </div>
+
+    <div class="card empty-card" id="empty-state">
+      <div class="shield-icon">🛡</div>
+      <div class="empty-title">No scans performed yet</div>
+      <div class="empty-sub">Run your first SAST analysis to surface issues.</div>
+    </div>
+
+    <button class="btn-primary" onclick="goToScreen('scan')">⛶ Run New Scan</button>
+  </section>
+
+  <!-- SCAN SCREEN -->
+  <section id="screen-scan" class="screen">
+    <header class="topbar">
+      <div class="eyebrow">SECURELENS · SCAN</div>
+      <div class="title-row">
+        <h1>Analyze Code</h1>
+        <button class="sample-btn" onclick="loadSample()">📄 Sample</button>
+      </div>
+    </header>
+
+    <div class="section-label">LANGUAGE</div>
+    <div class="lang-row" id="lang-row">
+      <button class="lang-btn active" data-lang="python">python</button>
+      <button class="lang-btn" data-lang="javascript">javascript</button>
+      <button class="lang-btn" data-lang="typescript">typescript</button>
+      <button class="lang-btn" data-lang="java">java</button>
+    </div>
+
+    <div class="section-label">TITLE (OPTIONAL)</div>
+    <input type="text" id="title-input" placeholder="e.g. Auth module review">
+
+    <div class="section-label">SOURCE CODE</div>
+    <textarea id="code-input" placeholder="// paste your code here..."></textarea>
+
+    <div class="upload-row">
+      <label for="file-input" class="upload-label">📁 Upload a file from your phone</label>
+      <input type="file" id="file-input" accept=".py,.js,.ts,.java,.txt" hidden>
+    </div>
+
+    <button class="btn-primary" id="analyze-btn" onclick="analyzeCode()">🛡 Analyze Code</button>
+    <div class="disclaimer">LLM-based SAST. Results are advisory and may include false positives/negatives.</div>
+
+    <div id="scan-results"></div>
+  </section>
+
+  <!-- HISTORY SCREEN -->
+  <section id="screen-history" class="screen">
+    <header class="topbar">
+      <div class="eyebrow">SECURELENS · HISTORY</div>
+      <div class="title-row">
+        <h1>Scan History</h1>
+      </div>
+    </header>
+    <div id="history-list"></div>
+  </section>
+
+  <!-- SCAN DETAIL OVERLAY -->
+  <section id="screen-detail" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="goToScreen('history')">← Back</button>
+      <div class="title-row">
+        <h1 id="detail-title">Scan Detail</h1>
+      </div>
+    </header>
+    <div id="detail-findings"></div>
+  </section>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-screen="dashboard" onclick="goToScreen('dashboard')">
+      <div class="nav-icon">🛡</div><div>Dashboard</div>
+    </button>
+    <button class="nav-item" data-screen="scan" onclick="goToScreen('scan')">
+      <div class="nav-icon">⊚</div><div>Scan</div>
+    </button>
+    <button class="nav-item" data-screen="history" onclick="goToScreen('history')">
+      <div class="nav-icon">🕐</div><div>History</div>
+    </button>
+  </nav>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
